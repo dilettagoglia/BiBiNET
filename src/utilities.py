@@ -96,10 +96,13 @@ def train_test_spl(dataset):
     dataset_train = dataset[~dataset.isin(dataset_test)].dropna() # train
     return dataset_train, dataset_test
 
-def substring_after(s, delim):
+def substring_after(s, delim): # todo: eliminare
     return s.partition(delim)[2]
 
 def csv_file(dirpath, output):
+    '''
+    This function puts all txt files together in the folder that contains all the forum posts. Each file contains a sentence.
+    '''
     csvout_lst = []
     files = [os.path.join(dirpath, fname) for fname in os.listdir(dirpath)]
 

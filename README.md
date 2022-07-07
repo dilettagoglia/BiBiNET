@@ -1,11 +1,15 @@
+<p align="center">
+    <img align="center" src='img/logo.png' width="180px">
+</p>
+
 # BiBiNET: BiLSTM for bipolarity sentiment analysis.
 _A Gated Recurrent Neural Network for Supervised Text
 Classification: detecting hate speech from different online
 textual genres._
 
 <a href="https://github.com/dilettagoglia/BiBiNET/blob/main/LICENSE"><img src="https://img.shields.io/github/license/dilettagoglia/BiBiNET" alt="License" /></a>
- <a href="https://github.com/dilettagoglia/BiBiNET/stargazers"><img src="https://img.shields.io/github/stars/dilettagoglia/BiBiNET" alt="GitHub stars" /></a>
- <a href="https://github.com/dilettagoglia/BiBiNET/network/members"><img alt="GitHub forks" src="https://img.shields.io/github/forks/dilettagoglia/BiBiNET" /></a>
+<a href="https://github.com/dilettagoglia/BiBiNET/stargazers"><img src="https://img.shields.io/github/stars/dilettagoglia/BiBiNET" alt="GitHub stars" /></a>
+<a href="https://github.com/dilettagoglia/BiBiNET/network/members"><img alt="GitHub forks" src="https://img.shields.io/github/forks/dilettagoglia/BiBiNET" /></a>
 
 ## Description
 This project was developed for the ”Human Language Technologies” course of Professor Giuseppe Attardi.
@@ -41,6 +45,8 @@ BiBiNET
   │   └── model.h5                          # final model   
   └── requirements.txt
   └── report.pdf                            # project guide
+  └── README.md
+  └── LICENSE  
 ```
 
 ## Quick start

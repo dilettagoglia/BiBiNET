@@ -1,7 +1,7 @@
 ''' 4. TF-IDF, Padding and GloVe Embedding '''
 
-from src.preproc import *
-from src.utilities import nfeature_accuracy_checker, dummy_fun, plot_acc_checker, pad
+from preproc import *
+from utilities import nfeature_accuracy_checker, dummy_fun, plot_acc_checker, pad
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import TfidfVectorizer

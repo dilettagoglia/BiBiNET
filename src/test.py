@@ -1,5 +1,5 @@
 ''' 6. Final test '''
-from src.data_prep import test_list
+from data_prep import test_list
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt

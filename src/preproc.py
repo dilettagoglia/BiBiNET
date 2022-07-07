@@ -1,7 +1,7 @@
 ''' 3. Pre-processing '''
 
 from data_prep import train, test, train_list
-from src.utilities import clean_text, tokenize_func, lemmatize_func, eda, tr_upsample
+from utilities import clean_text, tokenize_func, lemmatize_func, eda, tr_upsample
 # nltk.download('stopwords')
 from nltk.tokenize import TweetTokenizer
 from nltk.stem import WordNetLemmatizer

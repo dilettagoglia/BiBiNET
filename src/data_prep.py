@@ -1,7 +1,7 @@
 ''' 2. Data Preparation '''
 
-from src.data_import import *
-from src.utilities import twitter_preproc, forum_preproc, wiki_preproc, train_test_spl, csv_file, create_dataset
+from data_import import *
+from utilities import twitter_preproc, forum_preproc, wiki_preproc, train_test_spl, csv_file, create_dataset
 
 process_num='Process 2/6 (Data Preparation)'
 print(process_num, 'started.')
@@ -11,9 +11,9 @@ twitter_1 = twitter_preproc(twitter_data_1)
 twitter_1_train, twitter_1_test = train_test_spl(twitter_1)
 
 '''In the repository of the forum data each sample of text extracted is stored as a single text file. In order to limit the code and solving the task of appending all texts together in a single csv file this simple function csv_file is provided.'''
-dirpath_f = 'data/forum_data/hate-speech-dataset-master/all_files'
-output_f = 'data/forum_data/hate-speech-dataset-master/all_files.csv'
-csv_file(dirpath_f, output_f)
+#dirpath_f = 'data/forum_data/all_files'
+output_f = 'data/forum_data/all_files.csv'
+#csv_file(dirpath_f, output_f)
 forum_data = pd.read_csv('../data/forum_data/all_files.csv', low_memory=False)
 forum = forum_preproc(forum_data, forum_data_annot)
 forum_train, forum_test = train_test_spl(forum)
