@@ -1,5 +1,5 @@
 <p align="center">
-    <img align="center" src='img/logo.png' width="220px">
+    <img align="center" src='img/logo.png' width="350px">
 </p>
 
 # BiBiNET: BiLSTM for bipolarity sentiment analysis.
@@ -48,6 +48,9 @@ BiBiNET
   └── README.md
   └── LICENSE  
 ```
+<p align="center">
+    <img align="center" src='img/src_dir_struc.png' width="650px">
+</p>
 
 ## Quick start
 Install Python:<br>

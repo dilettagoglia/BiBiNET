@@ -63,16 +63,8 @@ else:
     print('Resampling and shuffling TR set ...')
 
     ''' RESAMPLING (only on TR set) '''
-    train_upsampled = tr_upsample(train_dataset)
+    train_upsampled = tr_upsample(train_dataset, train, plt=True)
     print('Upsampled TR set classes: \n', train_upsampled['hate'].value_counts())
-
-    plt.figure(figsize=(8,6))
-    sns.set_style('darkgrid')
-    sns.histplot(data = train['hate'], color='black', legend=True)
-    sns.histplot(data = train_upsampled['hate'], color = 'orange', legend=True)
-    plt.legend(['Initial_Data', 'Resampled_Data'])
-    plt.show()
-    plt.savefig('img/bef_aft_resampling.png')
 
     ''' RANDOM PERMUTATIONS '''
     train_upsampled.reset_index(drop=True, inplace=True)

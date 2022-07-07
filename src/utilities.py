@@ -26,6 +26,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 import matplotlib.cm as cm
 from matplotlib.colors import Normalize
+from wordcloud import WordCloud
 
 pd.options.mode.chained_assignment = None  # default='warn'
 
@@ -248,18 +249,18 @@ def eda(train_list, train):
     no_hate = []
     hate = []
     plts = no_hate, hate
-    axes = []
+    axes_ = []
 
     for i in range(4):
         no_hate.append(train_list[i][train_list[i].hate == 0])  # 4 dataframes
         hate.append(train_list[i][train_list[i].hate == 1])  # 4 dataframes
     for p in plts:
         for i in range(4):
-            axes.append(p[i].length.sort_values(ascending=False).unique())
-            axes.append(p[i].groupby(['length'])['count_'].mean())
+            axes_.append(p[i].length.sort_values(ascending=False).unique())
+            axes_.append(p[i].groupby(['length'])['count_'].mean())
 
-    ax[0].bar(axes[0], axes[1], color='g')
-    ax[1].bar(axes[2], axes[3], color='r')
+    ax[0].bar(axes_[0], axes_[1], color='g')
+    ax[1].bar(axes_[2], axes_[3], color='r')
     ax[0].set_title('Non-hateful')
     ax[1].set_title('Hateful')
 
@@ -294,12 +295,13 @@ def eda(train_list, train):
     plt.show()
     plt.savefig('../img/orig_class_distrib.png')
 
-def tr_upsample(tr):
+def tr_upsample(tr, plt=True):
     '''
     This function performs the resampling of the training set in order to fix class imbalance.
     Minority class (hate, label 1) is upsampled.
 
     :param tr: imbalanced TR set
+    :param plt: (boolean) whether generating plot of class distribution (comparison before/after resampling)
     :return: upsampled TR set
     '''
     train_majority = tr[tr.hate == 0]
@@ -309,6 +311,17 @@ def tr_upsample(tr):
                                         n_samples=len(train_majority),
                                         random_state=123)
     train_upsampled = pd.concat([train_minority_upsampled, train_majority])
+
+    if plt==True:
+
+        plt.figure(figsize=(8, 6))
+        sns.set_style('darkgrid')
+        sns.histplot(data=tr['hate'], color='black', legend=True)
+        sns.histplot(data=train_upsampled['hate'], color='orange', legend=True)
+        plt.legend(['Initial_Data', 'Resampled_Data'])
+        plt.show()
+        plt.savefig('img/bef_aft_resampling.png')
+
     return train_upsampled
 
 ################################################
@@ -601,3 +614,29 @@ def write_model_summary(model, y_val, y_pred):
     print(model.summary(), file=f1)
     print('\n Model performance on validation set\n', report_scores(y_val, y_pred))
     f1.close()
+
+def wordcl(test):
+    '''
+    This function performs the visual evaluation and explanation of the final test predictions by plotting
+    the wordcloud of both classes.
+
+    :param test: TS set
+    '''
+
+    fig, axs = plt.subplots(1, 2, figsize=(16, 8))
+    text_pos = []
+    text_neg = []
+    for words in test['text'][test.result == 0]:
+        text_pos.append(" ".join(words))
+    for words in test['text'][test.result == 1]:
+        text_neg.append(" ".join(words))
+    train_cloud_pos = WordCloud(collocations=False, background_color='white').generate(''.join(text_pos))
+    train_cloud_neg = WordCloud(collocations=False, background_color='black').generate(''.join(text_neg))
+    axs[0].imshow(train_cloud_pos, interpolation='bilinear')
+    axs[0].axis('off')
+    axs[0].set_title('Non-Hate Text')
+    axs[1].imshow(train_cloud_neg, interpolation='bilinear')
+    axs[1].axis('off')
+    axs[1].set_title('Hate Text')
+    plt.show()
+    plt.savefig('img/wordcloud_2.png')
