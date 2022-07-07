@@ -23,9 +23,9 @@ n_features = np.arange(1000,10001,1000)
 stop_words = stopwords.words('english')
 # nfeature_accuracy_checker(X_train, y_train, X_val, y_val, vectorizer=cvec, n_features=n_features, stop_words=stop_words, ngram_range=(1, 1), classifier=lr)
 
-feature_result_ugt = nfeature_accuracy_checker(vectorizer=tvec) # unigrams
-feature_result_bgt = nfeature_accuracy_checker(vectorizer=tvec, ngram_range=(1, 2)) # bigrams
-feature_result_tgt = nfeature_accuracy_checker(vectorizer=tvec, ngram_range=(1, 3)) # trigrams
+feature_result_ugt = nfeature_accuracy_checker(X_train, y_train, X_val, y_val, vectorizer=tvec)                     # unigrams
+feature_result_bgt = nfeature_accuracy_checker(X_train, y_train, X_val, y_val, vectorizer=tvec, ngram_range=(1, 2)) # bigrams
+feature_result_tgt = nfeature_accuracy_checker(X_train, y_train, X_val, y_val, vectorizer=tvec, ngram_range=(1, 3)) # trigrams
 
 nfeatures_plot_tgt = pd.DataFrame(feature_result_tgt,columns=['nfeatures','validation_accuracy','train_test_time'])
 nfeatures_plot_bgt = pd.DataFrame(feature_result_bgt,columns=['nfeatures','validation_accuracy','train_test_time'])

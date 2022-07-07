@@ -101,7 +101,12 @@ def substring_after(s, delim): # todo: eliminare
 
 def csv_file(dirpath, output):
     '''
-    This function puts all txt files together in the folder that contains all the forum posts. Each file contains a sentence.
+    This function puts all together the txt files from the folder that contains all the forum posts into a CSV.
+    Each file contains a sentence.
+
+    :param dirpath: directory path
+    :param output: csv file
+    :return: pandas dataframe
     '''
     csvout_lst = []
     files = [os.path.join(dirpath, fname) for fname in os.listdir(dirpath)]
@@ -114,6 +119,12 @@ def csv_file(dirpath, output):
     pd.concat(csvout_lst).to_csv(output)
 
 def create_dataset(ds_list):
+    '''
+    This function merge all the training and test sets from different sources.
+
+    :param ds_list: list of datasets to merge
+    :return: unique dataset (DEV or TS)
+    '''
     res = pd.concat([dataset for dataset in ds_list])
     res.drop("id", axis=1, inplace=True)  # drop id column
     res.reset_index(
@@ -126,6 +137,14 @@ def create_dataset(ds_list):
 ################################################
 
 def clean_text(text):
+    '''
+    This function performs a complete cleaning of the corpus.
+    N.B. some actions have been removed because they will be performed by of TweetTokenizer.
+
+    :param text: corpus
+    :return: cleaned corpus
+    '''
+
     ## Convert words to Lower case and split them
     text = text.lower().split()
 
@@ -142,28 +161,27 @@ def clean_text(text):
     # discarded because of nltk TwitterTokenizer
     # text=re.sub(r"(@[A-Za-z0–9_]+)|([^-9A-Za-z \t])|(\w+:\/\/\S+)", '', text) # removing emojis and users IDs
     # text=re.sub(r'#', ' ', text) # hashtag
+
     text = re.sub(r'RT[\s]+', '', text)  # rt
     text = re.sub(r'https?:\/\/\S+', '', text)  # link
-    text = re.sub(r"\b[a-zA-Z]\b", "", text)  # ???
+    text = re.sub(r"\b[a-zA-Z]\b", "", text)
     text = re.sub("\d", "", text)  # remove numbers
-    text = re.sub("[^A-Za-z]", " ", text)  # ???
+    text = re.sub("[^A-Za-z]", " ", text)
     text = re.sub(r'\s+', ' ', text)  # extra spaces
-
-    # elimino caratteri speciali
-    # sentence = re.sub(r'\W', ' ', sentence)
-    # elimino caratteri rimasti soli dopo eliminazione char speciali
-    # sentence = re.sub(r'\s+[a-zA-Z]\s+', ' ', sentence)
-    # return (sentence)
 
     return text
 
 def correct_spellings(text):
     '''
     This function corrects the spelling of a given corpus passed as parameter, by using the SpellChecker Python module.
+
+    See also:
     [pyspellchecker 0.6.3](https://pypi.org/project/pyspellchecker/)
+
     :param text: corpus
     :return: corpus corrected
     '''
+
     spell = SpellChecker()
     corrected_text = []
     misspelled_words = spell.unknown(text.split())
@@ -178,11 +196,15 @@ def tokenize_func(text, tokenizer):
     '''
     This function performs the tokenization of the text, by using the tokenizer passed as parameter.
     In this project we use the TweetTokenizer from NLTK module.
+
+    See also:
     [NLTK TwitterTokenizer documentation](https://www.nltk.org/api/nltk.tokenize.casual.html)
+
     :param text: corpus to be tokenized
     :param tokenizer: tokenizer
     :return: tokenized corpus
     '''
+
     tokens = tokenizer.tokenize(text)
     #tokens = [token.strip() for token in tokens]
     #filtered_tokens = [token for token in tokens if token not in stopword_list]
@@ -192,14 +214,24 @@ def lemmatize_func(text, lemmatizer):
     '''
     This function performs the lemmatization of the text, by using the lemmatizer passed as parameter.
     In this project we use the WordNetLemmatizer from NLTK module.
+
     :param text: corpus to lemmatize
     :param lemmatizer: lemmatizer
     :return: lemmatized corpus
     '''
+
     lem = lemmatizer.lemmatize(text)
     return lem
 
 def eda(train_list, train):
+    '''
+    This function performs an Exploratory Data Analysis (EDA) on corpora.
+    It analyses and plots textual properties and checks the class balance.
+
+    :param train_list: list of TR sets form different sources
+    :param train: DEV set
+    '''
+
     print('EDA (Exploratory Data Analysis of Text Data) ...')
     for ds in train_list:
         ds.reset_index(drop=True, inplace=True)
@@ -266,6 +298,7 @@ def tr_upsample(tr):
     '''
     This function performs the resampling of the training set in order to fix class imbalance.
     Minority class (hate, label 1) is upsampled.
+
     :param tr: imbalanced TR set
     :return: upsampled TR set
     '''

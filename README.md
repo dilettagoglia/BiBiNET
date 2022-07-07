@@ -1,5 +1,5 @@
 <p align="center">
-    <img align="center" src='img/logo.png' width="180px">
+    <img align="center" src='img/logo.png' width="220px">
 </p>
 
 # BiBiNET: BiLSTM for bipolarity sentiment analysis.
@@ -18,14 +18,14 @@ This project was developed for the ”Human Language Technologies” course of P
 ```
 BiBiNET
   │── src
-  │    │── data_import.py
-  │    │── data_prep.py
-  │    │── preproc.py
-  │    │── transform.py
-  │    │── classifiers.py
-  │    │── test.py
+  │    │── data_import.py                   # process 1/6
+  │    │── data_prep.py                     # process 2/6                     
+  │    │── preproc.py                       # process 3/6
+  │    │── transform.py                     # process 4/6
+  │    │── classifiers.py                   # process 5/6
+  │    │── test.py                          # process 6/6
   │    │── utilities.py
-  │    └── main.py
+  │    └── main.py                          # file to run
   └── data
   │    └── forum_data
   │    │   │── all_files.csv                # text
@@ -59,7 +59,7 @@ Install pip:<br>
 Install requirements:<br>
 `python -m pip install --requirement requirements.txt`
 
-Execute [main](main.py)
+Execute [main](src/main.py)
 ```
 cd src/
 python main.py
@@ -70,4 +70,4 @@ python main.py
 **Postgraduate Student in MSc in Artificial Intelligence** <br/>
 **Computer Science department, University of Pisa, Italy** <br/>
 [d.goglia@studenti.unipi.it](mailto:d.goglia@studenti.unipi.it) <br/>
-[dilettagoglia.netlify.app](www.dilettagoglia.netlify.app) 
+[dilettagoglia.netlify.app](http://www.dilettagoglia.netlify.app) 
