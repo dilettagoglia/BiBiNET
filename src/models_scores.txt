@@ -1,0 +1,59 @@
+MNB performance on train set: 
+ precision    recall  f1-score   support
+
+           0       0.75      0.93      0.83    167516
+           1       0.90      0.69      0.78    167516
+
+    accuracy                           0.81    335032
+   macro avg       0.82      0.81      0.80    335032
+weighted avg       0.82      0.81      0.80    335032
+
+MNB performance on val set:
+ precision    recall  f1-score   support
+
+           0       0.93      0.92      0.93     18773
+           1       0.66      0.69      0.67      4019
+
+    accuracy                           0.88     22792
+   macro avg       0.80      0.80      0.80     22792
+weighted avg       0.88      0.88      0.88     22792
+
+LR performance on train set:
+ precision    recall  f1-score   support
+
+           0       0.75      0.94      0.84    167516
+           1       0.92      0.69      0.79    167516
+
+    accuracy                           0.82    335032
+   macro avg       0.84      0.82      0.82    335032
+weighted avg       0.84      0.82      0.82    335032
+
+LR performance on val set:
+ precision    recall  f1-score   support
+
+           0       0.94      0.94      0.94     18773
+           1       0.72      0.70      0.71      4019
+
+    accuracy                           0.90     22792
+   macro avg       0.83      0.82      0.82     22792
+weighted avg       0.90      0.90      0.90     22792
+
+RF performance on train set:
+ precision    recall  f1-score   support
+
+           0       0.85      0.96      0.90    167516
+           1       0.95      0.83      0.89    167516
+
+    accuracy                           0.89    335032
+   macro avg       0.90      0.89      0.89    335032
+weighted avg       0.90      0.89      0.89    335032
+
+RF performance on val set: 
+ precision    recall  f1-score   support
+
+           0       0.93      0.95      0.94     18773
+           1       0.74      0.67      0.70      4019
+
+    accuracy                           0.90     22792
+   macro avg       0.84      0.81      0.82     22792
+weighted avg       0.90      0.90      0.90     22792

@@ -10,7 +10,9 @@ print('Splitting TR/TS ...')
 twitter_1 = twitter_preproc(twitter_data_1)
 twitter_1_train, twitter_1_test = train_test_spl(twitter_1)
 
-'''In the repository of the forum data each sample of text extracted is stored as a single text file. In order to limit the code and solving the task of appending all texts together in a single csv file this simple function csv_file is provided.'''
+'''In the repository of the forum data each sample of text extracted is stored as a single text file.
+In order to limit the code and solving the task of appending all texts together in a single csv file this 
+simple function csv_file is provided.'''
 #dirpath_f = 'data/forum_data/all_files'
 output_f = 'data/forum_data/all_files.csv'
 #csv_file(dirpath_f, output_f)

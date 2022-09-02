@@ -50,7 +50,7 @@ def glove_lstm(embedding_matrix, longest_train, neurons):
     mod.add(Bidirectional(LSTM(
         # longest_train,
         neurons,
-        return_sequences=False  # ???
+        return_sequences=False
         # recurrent_dropout=0.2
     )))
 

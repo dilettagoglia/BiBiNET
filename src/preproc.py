@@ -63,7 +63,7 @@ else:
     print('Resampling and shuffling TR set ...')
 
     ''' RESAMPLING (only on TR set) '''
-    train_upsampled = tr_upsample(train_dataset, train, plt=True)
+    train_upsampled = tr_upsample(train_dataset, plt_=True)
     print('Upsampled TR set classes: \n', train_upsampled['hate'].value_counts())
 
     ''' RANDOM PERMUTATIONS '''

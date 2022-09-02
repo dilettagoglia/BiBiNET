@@ -16,12 +16,14 @@ print('TF-IDF vectorization ...')
 ''' TF-IDF '''
 
 # ACCURACY CHECK WRT N OF FEATURES EXTRACTED
+'''
 cvec = CountVectorizer(lowercase=False)
 tvec = TfidfVectorizer(lowercase=False)
 lr = LogisticRegression()
-n_features = np.arange(1000,10001,1000)
+n_features = np.arange(100,1001,100)
 stop_words = stopwords.words('english')
 # nfeature_accuracy_checker(X_train, y_train, X_val, y_val, vectorizer=cvec, n_features=n_features, stop_words=stop_words, ngram_range=(1, 1), classifier=lr)
+
 
 feature_result_ugt = nfeature_accuracy_checker(X_train, y_train, X_val, y_val, vectorizer=tvec)                     # unigrams
 feature_result_bgt = nfeature_accuracy_checker(X_train, y_train, X_val, y_val, vectorizer=tvec, ngram_range=(1, 2)) # bigrams
@@ -32,7 +34,7 @@ nfeatures_plot_bgt = pd.DataFrame(feature_result_bgt,columns=['nfeatures','valid
 nfeatures_plot_ugt = pd.DataFrame(feature_result_ugt,columns=['nfeatures','validation_accuracy','train_test_time'])
 
 plot_acc_checker(nfeatures_plot_tgt, nfeatures_plot_bgt, nfeatures_plot_ugt)
-
+'''
 
 ''' VECTORIZER FIT AND TRANSFORM '''
 

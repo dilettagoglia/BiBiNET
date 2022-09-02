@@ -1,6 +1,7 @@
 ''' 0. MAIN '''
 
 import matplotlib.pyplot as plt
+import tensorflow as tf
 from transform import *
 from utilities import plot_model_curves, plot_c_matrix, plot_decision_boundary, report_scores, save_model, predict_on_val, write_model_summary
 from sklearn.linear_model import LogisticRegression
@@ -135,24 +136,31 @@ y_pred = predict_on_val(model_stored, val_padded_sentences)
 
 print('Building gated RNN (model #2) ...')
 
-sequence_input = Input(shape=(longest_train,))
+neurons = 32
+
 embed_size = embedding_matrix.shape[1]
-x = Embedding(embedding_matrix.shape[0], embed_size, weights=[embedding_matrix], trainable=False)(sequence_input)
-x = Bidirectional(LSTM(neurons, return_sequences=False, dropout=0.6, recurrent_dropout=0.4))(x)
+dense_input = Input(shape=(embed_size,))  # tf-idf (100)
+sequence_input = Input(shape=(longest_train,))  # 1250
+embedding = Embedding(embedding_matrix.shape[0], embed_size, weights=[embedding_matrix], trainable=False)(
+    sequence_input)
+mean_embedding = Lambda(lambda x: tf.keras.backend.mean(x, axis=1))(embedding)
 # x = GlobalMaxPool1D()(x)
-x = Dense(neurons, activation="relu")(x)
-x = Dropout(0.6)(x)
-dense_input = Input(shape=(embed_size,))  # 100
-dense_vector = BatchNormalization()(dense_input)
-feature_vector = concatenate([x, dense_vector])
+# dense_vector = BatchNormalization()(dense_input)
+concat_vec = concatenate([mean_embedding, dense_input])
+expanded_concat = Reshape((200, 1))(concat_vec)
+feature_vector = Bidirectional(LSTM(neurons, return_sequences=True, dropout=0.6, recurrent_dropout=0.4))(
+    expanded_concat)
 feature_vector = Dense(neurons // 2, activation="relu")(feature_vector)
-feature_vector = Dropout(0.6)(feature_vector)
+feature_vector = Dropout(0.2)(feature_vector)
+feature_vector = Dense(neurons // 4, activation="relu")(feature_vector)
+feature_vector = Dropout(0.2)(feature_vector)
 output = Dense(1, activation="sigmoid")(feature_vector)
 
 model_2 = Model(inputs=[sequence_input, dense_input], outputs=output)
 model_2.compile(loss='binary_crossentropy',
                 optimizer='adam',
                 metrics=['accuracy'])
+model_2.summary()
 #print(model_2.summary())
 
 # Train the model
@@ -165,23 +173,24 @@ history = rnn_train([train_padded_sentences, vect_transformed_X_train.toarray()]
 # Save and Evaluate the model
 model_name='model'
 # save_model(model_2, model_name, del_model=True)
-model_stored = load_model(f'model/{str(model_name)}.h5') # returns a compiled model identical to the previous one
+# todo: insert save history
+
+model_stored = load_model(f'../model/{str(model_name)}.h5') # load saved (previously trained) model, already compiled
 
 '''
 Image(model_to_dot(model_stored, show_shapes=True, show_dtype=True, expand_nested=True,
                   show_layer_activations=True).create(prog='dot', format='png'))'''
 
 print('Evaluating model and plotting curves ...')
+
+''' MODEL EVALUATION ON VAL SET '''
+y_pred = predict_on_val(model_stored, [val_padded_sentences,vect_transformed_X_val.toarray()])
+
 ''' Loss and accuracy curves '''
 plot_model_curves(model_stored, 'lstm_loss_curve_model_2')
 
-''' MODEL EVALUATION ON VAL SET '''
-y_pred = predict_on_val(model_stored, val_padded_sentences) # todo sostituire con [val_padded_sentences,vect_transformed_X_val.toarray()]
-
 ''' EXTERNAL OUTPUT SUMMARY '''
-write_model_summary(model_2, y_val, y_pred)
+# write_model_summary(model_2, y_val, y_pred)
 
 ''' FINAL TEST SET PREDICTIONS '''
 pred_test(model, test, test_padded_sentences, xai=True)
-
-

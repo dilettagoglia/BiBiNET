@@ -97,7 +97,7 @@ def train_test_spl(dataset):
     dataset_train = dataset[~dataset.isin(dataset_test)].dropna() # train
     return dataset_train, dataset_test
 
-def substring_after(s, delim): # todo: eliminare
+def substring_after(s, delim): # todo: delete
     return s.partition(delim)[2]
 
 def csv_file(dirpath, output):
@@ -240,7 +240,7 @@ def eda(train_list, train):
         ds['count_'] = ds.groupby('length')['length'].transform('count')
 
     plt.style.use('ggplot')
-    f, ax = plt.subplots(2, 2, figsize=(18, 8))
+    f, ax = plt.subplots(4, 1, figsize=(24, 8))
 
     # Get a color map
     my_cmap = cm.get_cmap('jet')
@@ -269,24 +269,22 @@ def eda(train_list, train):
     ax[2].set_title('Non-hateful')
     ax[3].set_title('Hateful')
 
-    for i in range(0, 1):
+    for i in range(0, 2):
         ax[i].set_ylabel('Count')
         ax[i].set_xlabel('Length (characters)')
-    for i in range(2, 3):
+    for i in range(2, 4):
         ax[i].set_ylabel('Count')
         ax[i].set_xlabel('Length (tokens)')
     plt.suptitle('Length of Posts/Tweets/Comments in TR set')
     plt.show()
     plt.savefig('../img/text_len.png')
 
-    # todo: add zipf law and other plots
-
     print('Checking class balance ...')
 
     # dealing with unbalanced classes
     # visualize with column chart and pie chart to examine the distribution of hate speech and non-hate speech data in the dataset.
 
-    f, ax = plt.subplots(1, 2, figsize=(18, 8))
+    f, ax = plt.subplots(1, 2, figsize=(24, 8))
     train['hate'].value_counts().plot.pie(explode=[0, 0.1], autopct='%1.1f%%', ax=ax[0], shadow=True)
     ax[0].set_title('Distribution')
     ax[0].set_ylabel('')
@@ -295,7 +293,7 @@ def eda(train_list, train):
     plt.show()
     plt.savefig('../img/orig_class_distrib.png')
 
-def tr_upsample(tr, plt=True):
+def tr_upsample(tr, plt_=True):
     '''
     This function performs the resampling of the training set in order to fix class imbalance.
     Minority class (hate, label 1) is upsampled.
@@ -312,7 +310,7 @@ def tr_upsample(tr, plt=True):
                                         random_state=123)
     train_upsampled = pd.concat([train_minority_upsampled, train_majority])
 
-    if plt==True:
+    if plt_==True:
 
         plt.figure(figsize=(8, 6))
         sns.set_style('darkgrid')
@@ -320,7 +318,7 @@ def tr_upsample(tr, plt=True):
         sns.histplot(data=train_upsampled['hate'], color='orange', legend=True)
         plt.legend(['Initial_Data', 'Resampled_Data'])
         plt.show()
-        plt.savefig('img/bef_aft_resampling.png')
+        plt.savefig('../img/bef_aft_resampling.png')
 
     return train_upsampled
 
@@ -507,7 +505,7 @@ def plot_model_curves(model, out_file_name):
     ax1.legend()
     ax2.legend()
     plt.show()
-    plt.savefig(f'.../img/{str(out_file_name)}.png')
+    plt.savefig(f'../img/{str(out_file_name)}.png')
 
 def plot_c_matrix(test_set, test_label, test_pred, classifier, classifier_name, axs=None):
     '''
@@ -575,7 +573,7 @@ def save_model(model, model_name, del_model=False):
     '''
 
     print('Saving Bi-LSTM model ...')
-    model.save(f'/model/{str(model_name)}.h5')  # creates a HDF5 file 'model.h5'
+    model.save(f'../model/{str(model_name)}.h5')  # creates a HDF5 file 'model.h5'
     # For only storing the model definition, obtain its description as a JSON or YAML:
     # json_string = model.to_json()
     # yaml_string = model.to_yaml()
@@ -639,4 +637,4 @@ def wordcl(test):
     axs[1].axis('off')
     axs[1].set_title('Hate Text')
     plt.show()
-    plt.savefig('img/wordcloud_2.png')
+    plt.savefig('../img/wordcloud_2.png')
